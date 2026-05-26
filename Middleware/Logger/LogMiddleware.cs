@@ -38,14 +38,17 @@ public static class LogMiddleware
         q => q.Key,
         q => q.Value.ToString()
     ),
+      Headers = req?.Headers.ToDictionary(
+        h => h.Key,
+        h => h.Value.ToString()),
       RouteParams = ctx.Request.RouteValues,
-      Body = body
+      Body = body,
     };
 
     return logObj;
   }
 
-  private static async Task Log(string json)
+  private static async Task Log(object logObj)
   {
     string cwd = Directory.GetCurrentDirectory();
     string logDirectory =
@@ -56,10 +59,35 @@ public static class LogMiddleware
     if (!Directory.Exists(logDirectory))
       Directory.CreateDirectory(logDirectory);
 
-    await File.AppendAllTextAsync(
-        logFilePath,
-        json + "," + Environment.NewLine
-    );
+    List<object> logs = [];
+
+    if (File.Exists(logFilePath))
+    {
+      string existingJson =
+          await File.ReadAllTextAsync(logFilePath);
+
+      if (!string.IsNullOrWhiteSpace(existingJson))
+      {
+        logs = JsonSerializer.Deserialize<List<object>>(
+            existingJson
+        ) ?? [];
+      }
+    }
+
+    logs.Add(logObj);
+
+    string updatedJson = JsonSerializer.Serialize(
+        logs,
+        new JsonSerializerOptions
+        {
+          WriteIndented = true
+        });
+
+    await File.WriteAllTextAsync(
+   logFilePath,
+   updatedJson
+);
+
   }
 
   public static async Task LogRequest(HttpContext ctx)
@@ -69,14 +97,6 @@ public static class LogMiddleware
 
     var logObj = await BuildObj(ctx);
 
-    string json = JsonSerializer.Serialize(
-              logObj,
-              new JsonSerializerOptions
-              {
-                WriteIndented = true
-              });
-
-    await Log(json);
-
+    await Log(logObj);
   }
 }
