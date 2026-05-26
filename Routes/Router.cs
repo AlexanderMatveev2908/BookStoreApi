@@ -1,6 +1,6 @@
-using BOOKSTORE_API.Router.BookRoutes;
+using BOOKSTORE_API.Router.BooksRouterNamespace;
 
-namespace BOOKSTORE_API.Routes;
+namespace BOOKSTORE_API.RouterNamespace;
 
 public static class Router
 {

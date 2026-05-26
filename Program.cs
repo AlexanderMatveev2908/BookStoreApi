@@ -1,4 +1,4 @@
-using BOOKSTORE_API.Routes;
+using BOOKSTORE_API.RouterNamespace;
 
 var builder = WebApplication.CreateBuilder(args);
 
