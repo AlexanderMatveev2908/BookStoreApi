@@ -1,3 +1,4 @@
+using BOOKSTORE_API.Middleware;
 using BOOKSTORE_API.RouterNamespace;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,15 +9,14 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-Router.MapApi(app);
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-{
     app.MapOpenApi();
-}
 
 app.UseHttpsRedirection();
+
+MainMiddleware.UseMainMiddleware(app);
+
+Router.MapApi(app);
 
 app.Run();
 
