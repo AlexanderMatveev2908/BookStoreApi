@@ -19,6 +19,7 @@ obj/
 
 # Logs
 *.log
+.logger/
 
 # ASP.NET generated
 wwwroot/lib/

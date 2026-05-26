@@ -1,4 +1,5 @@
 using BOOKSTORE_API.Middleware.BooksMiddlewareNamespace;
+using BOOKSTORE_API.MiddlewareNamespace.LogMiddlewareNamespace;
 
 namespace BOOKSTORE_API.Middleware;
 
@@ -14,6 +15,7 @@ public static class MainMiddleware
       if (ctx.Request.Path.StartsWithSegments(BASE_PATH))
       {
         Console.WriteLine("Main middleware hit");
+        await LogMiddleware.LogRequest(ctx);
 
         if (ctx.Request.Path.StartsWithSegments(BOOKS_PATH))
           await BooksMiddleware.UseBooksMiddleware(ctx);
