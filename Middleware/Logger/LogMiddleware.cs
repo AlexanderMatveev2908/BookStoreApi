@@ -48,17 +48,9 @@ public static class LogMiddleware
     return logObj;
   }
 
-  private static async Task Log(object logObj)
+
+  private static async Task<List<object>> ReadExistingLogs(string logFilePath)
   {
-    string cwd = Directory.GetCurrentDirectory();
-    string logDirectory =
-        Path.Combine(cwd, ".logger");
-    string logFilePath =
-        Path.Combine(logDirectory, "requests.json");
-
-    if (!Directory.Exists(logDirectory))
-      Directory.CreateDirectory(logDirectory);
-
     List<object> logs = [];
 
     if (File.Exists(logFilePath))
@@ -74,6 +66,21 @@ public static class LogMiddleware
       }
     }
 
+    return logs;
+  }
+  private static async Task Log(object logObj)
+  {
+    string cwd = Directory.GetCurrentDirectory();
+    string logDirectory =
+        Path.Combine(cwd, ".logger");
+    string logFilePath =
+        Path.Combine(logDirectory, "requests.json");
+
+    if (!Directory.Exists(logDirectory))
+      Directory.CreateDirectory(logDirectory);
+
+
+    List<object> logs = await ReadExistingLogs(logFilePath);
     logs.Add(logObj);
 
     string updatedJson = JsonSerializer.Serialize(
