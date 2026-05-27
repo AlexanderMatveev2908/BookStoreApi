@@ -1,4 +1,5 @@
 using BOOKSTORE_API.Router.BooksRouterNamespace;
+using BOOKSTORE_API.RoutesNamespace.CloudNamespace;
 
 namespace BOOKSTORE_API.RouterNamespace;
 
@@ -15,5 +16,6 @@ public static class Router
     });
 
     BooksRouter.Map(api);
+    CloudRoutes.Map(api);
   }
 }

@@ -17,7 +17,7 @@ public static class MainMiddleware
         await LogMiddleware.LogRequest(ctx);
 
         if (ctx.Request.Path.StartsWithSegments(BOOKS_PATH))
-          await BooksMiddleware.UseBooksMiddleware(ctx);
+          BooksMiddleware.UseBooksMiddleware(ctx);
 
       }
 
