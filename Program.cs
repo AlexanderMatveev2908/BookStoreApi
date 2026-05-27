@@ -1,4 +1,5 @@
 using BOOKSTORE_API.EnvVarsNamespace;
+using BOOKSTORE_API.ExtensionsNamespace.RateLimitExtNamespace;
 using BOOKSTORE_API.Middleware;
 using BOOKSTORE_API.RouterNamespace;
 using BOOKSTORE_API.ServicesNamespace.RedisNamespace;
@@ -20,6 +21,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 
 app.UseHttpsRedirection();
+
+RateLimitExt.UseRateLimit(app);
 
 MainMiddleware.UseMainMiddleware(app);
 

@@ -6,6 +6,9 @@ namespace BOOKSTORE_API.ServicesNamespace.RedisNamespace;
 
 public static class Redis
 {
+
+    public static IConnectionMultiplexer Connection { get; private set; } = null!;
+
     public static async Task Connect(WebApplication app)
     {
         string host = EnvVars.Get("REDIS_HOST");
@@ -27,10 +30,10 @@ public static class Redis
             AbortOnConnectFail = false
         };
 
-        IConnectionMultiplexer redis =
+        Connection =
             await ConnectionMultiplexer.ConnectAsync(options);
 
-        IDatabase db = redis.GetDatabase();
+        IDatabase db = Connection.GetDatabase();
 
         TimeSpan ping = await db.PingAsync();
 
