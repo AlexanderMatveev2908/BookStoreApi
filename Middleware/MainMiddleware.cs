@@ -1,7 +1,7 @@
 using BOOKSTORE_API.Middleware.BooksMiddlewareNamespace;
 using BOOKSTORE_API.MiddlewareNamespace.LogMiddlewareNamespace;
 
-namespace BOOKSTORE_API.Middleware;
+namespace BOOKSTORE_API.MiddlewareNamespace;
 
 public static class MainMiddleware
 {

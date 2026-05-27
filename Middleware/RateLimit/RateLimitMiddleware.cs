@@ -1,5 +1,4 @@
-using BOOKSTORE_API.ServicesNamespace
-.RateLimitNamespace;
+using BOOKSTORE_API.MiddlewareNamespace.RateLimitNamespace;
 
 namespace BOOKSTORE_API.Middleware;
 

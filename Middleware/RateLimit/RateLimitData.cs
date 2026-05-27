@@ -1,5 +1,4 @@
-namespace BOOKSTORE_API.ServicesNamespace
-.RateLimitNamespace;
+namespace BOOKSTORE_API.MiddlewareNamespace.RateLimitNamespace;
 
 public sealed class RateLimitData
 {
