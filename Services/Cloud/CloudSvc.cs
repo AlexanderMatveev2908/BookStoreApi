@@ -1,4 +1,5 @@
 using BOOKSTORE_API.EnvVarsNamespace;
+using BOOKSTORE_API.ErrAppNamespace;
 using BOOKSTORE_API.FilesLibNamespace;
 using BOOKSTORE_API.TypesNamespace;
 using CloudinaryDotNet;
@@ -123,5 +124,32 @@ public static class CloudSvc
     }
 
     return results;
+  }
+
+  public static async Task Delete(
+    string publicId, string resourceType
+)
+  {
+    DeletionParams deleteParams =
+        new(publicId
+)
+        {
+          ResourceType =
+                resourceType == "video"
+                    ? ResourceType.Video
+                    : ResourceType.Image
+        };
+
+    DeletionResult result =
+        await Connection.DestroyAsync(
+            deleteParams
+        );
+
+    if (result.Result != "ok")
+    {
+      throw new ErrApp(
+          "Failed to delete file"
+      );
+    }
   }
 }

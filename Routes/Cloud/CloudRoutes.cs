@@ -10,5 +10,9 @@ public static class CloudRoutes
     api.MapPost("/cloud/upload", async (HttpContext ctx, IFormFile file, [FromForm] string title) => await
     CloudControllers.Upload(ctx, file, title)
     ).DisableAntiforgery();
+
+    api.MapDelete("/cloud/delete", async (HttpContext ctx, [FromQuery] string publicId, [FromQuery] string resourceType) => await
+    CloudControllers.Delete(ctx, publicId, resourceType)
+    ).DisableAntiforgery();
   }
 }

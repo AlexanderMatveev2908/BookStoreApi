@@ -21,4 +21,18 @@ public static class CloudControllers
 
     return;
   }
+
+  public static async Task Delete(HttpContext ctx, string publicId, string resourceType)
+  {
+    await CloudSvc.Delete(publicId, resourceType);
+
+    await ctx.Response.WriteAsJsonAsync(
+          new
+          {
+            status = 400,
+            message = "things went well",
+          });
+
+    return;
+  }
 }
