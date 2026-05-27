@@ -8,15 +8,15 @@ public static class CloudControllers
   {
 
     var result = await CloudSvc.UploadSingle(file);
-    Console.WriteLine(result.PublicId);
-    Console.WriteLine(result.Url);
 
     await ctx.Response.WriteAsJsonAsync(
           new
           {
             status = 401,
             message = "things went well",
-            title
+            title,
+            result.Url,
+            result.PublicId
           });
 
     return;

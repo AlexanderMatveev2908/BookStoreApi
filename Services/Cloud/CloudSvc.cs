@@ -1,4 +1,5 @@
 using BOOKSTORE_API.EnvVarsNamespace;
+using BOOKSTORE_API.TypesNamespace;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 
@@ -31,7 +32,7 @@ public static class CloudSvc
     );
   }
 
-  public static async Task<ImageUploadResult> UploadSingle(IFormFile file)
+  public static async Task<UploadResultCloud> UploadImage(IFormFile file)
   {
     using Stream stream =
      file.OpenReadStream();
@@ -52,6 +53,72 @@ public static class CloudSvc
      uploadParams
  );
 
-    return result;
+    return new UploadResultCloud
+    {
+      PublicId = result.PublicId,
+      Url = result.Url.ToString()
+    };
+  }
+
+  public static async Task<UploadResultCloud> UploadVideo(IFormFile file)
+  {
+    var cwd = Directory.GetCurrentDirectory();
+    var tempPath = Path.Combine(
+        cwd,
+        "temp",
+        file.FileName
+    );
+
+    Directory.CreateDirectory(Path.GetDirectoryName(tempPath)!);
+
+    using (var videoStream = new FileStream(tempPath, FileMode.Create))
+    {
+      await file.CopyToAsync(videoStream);
+    }
+
+    VideoUploadParams uploadParamsVideo = new()
+    {
+      File = new FileDescription(tempPath),
+      Folder = "cs__books"
+    };
+
+    VideoUploadResult resultVideo =
+        await Connection.UploadAsync(uploadParamsVideo);
+
+    File.Delete(tempPath);
+
+    return new UploadResultCloud
+    {
+      PublicId = resultVideo.PublicId,
+      Url = resultVideo.Url.ToString()
+    };
+  }
+
+
+  public static async Task<UploadResultCloud> UploadSingle(IFormFile file)
+  {
+    if (file.ContentType.StartsWith("video/"))
+      return await UploadVideo(file);
+    else if (file.ContentType.StartsWith("image/"))
+      return await UploadImage(file);
+    else
+      throw new Exception("Unsupported file type");
+  }
+
+  public static async Task<
+    List<UploadResultCloud>
+> UploadMultiple(
+    List<IFormFile> files
+)
+  {
+    List<UploadResultCloud> results =
+        [];
+
+    foreach (IFormFile file in files)
+    {
+      results.Add(await UploadSingle(file));
+    }
+
+    return results;
   }
 }
