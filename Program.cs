@@ -1,9 +1,7 @@
 using BOOKSTORE_API.EnvVarsNamespace;
-using BOOKSTORE_API.ExtensionsNamespace.RateLimitExtNamespace;
-using BOOKSTORE_API.MiddlewareNamespace;
-using BOOKSTORE_API.RouterNamespace;
 using BOOKSTORE_API.ServicesNamespace.CloudSvcNamespace;
 using BOOKSTORE_API.ServicesNamespace.RedisNamespace;
+using BOOKSTORE_API.SettingsAppNamespace;
 using DotNetEnv;
 
 Env.Load();
@@ -13,30 +11,7 @@ EnvVars.CheckEnvVars();
 var builder =
     WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(
-        "Frontend",
-        policy =>
-        {
-            policy
-                .WithOrigins(
-                    EnvVars.Get("FRONTEND_URL")
-                )
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        }
-    );
-});
-
-
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.Limits.MaxRequestBodySize =
-        1024 * 1024 * 500;
-});
+SettingsApp.ConfigureBuilder(builder);
 
 var app = builder.Build();
 
@@ -48,14 +23,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
-
-app.UseCors("Frontend");
-
-app.UseRateLimit();
-
-app.UseMainMiddleware();
-
-Router.MapApi(app);
+SettingsApp.ConfigureApp(app);
 
 app.Run();
