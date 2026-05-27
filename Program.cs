@@ -31,6 +31,7 @@ builder.Services.AddCors(options =>
     );
 });
 
+
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.Limits.MaxRequestBodySize =
@@ -48,6 +49,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("Frontend");
 
 app.UseRateLimit();
 
