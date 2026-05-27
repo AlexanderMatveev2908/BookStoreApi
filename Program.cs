@@ -2,6 +2,7 @@ using BOOKSTORE_API.EnvVarsNamespace;
 using BOOKSTORE_API.ExtensionsNamespace.RateLimitExtNamespace;
 using BOOKSTORE_API.MiddlewareNamespace;
 using BOOKSTORE_API.RouterNamespace;
+using BOOKSTORE_API.ServicesNamespace.CloudSvcNamespace;
 using BOOKSTORE_API.ServicesNamespace.RedisNamespace;
 using DotNetEnv;
 
@@ -32,6 +33,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+await CloudSvc.Connect();
 await Redis.Connect(app);
 
 if (app.Environment.IsDevelopment())

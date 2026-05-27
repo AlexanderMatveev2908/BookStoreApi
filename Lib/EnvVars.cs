@@ -9,7 +9,11 @@ public static class EnvVars
     "REDIS_HOST",
     "REDIS_PORT",
     "REDIS_PASSWORD",
-    "FRONTEND_URL"
+    "FRONTEND_URL",
+    "CLOUD_NAME",
+    "CLOUD_API_KEY",
+    "CLOUD_API_SECRET",
+    "CLOUD_URL"
   };
 
   public static string Get(string key)

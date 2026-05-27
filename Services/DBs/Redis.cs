@@ -1,5 +1,4 @@
 using BOOKSTORE_API.EnvVarsNamespace;
-using BOOKSTORE_API.ErrAppNamespace;
 using StackExchange.Redis;
 
 namespace BOOKSTORE_API.ServicesNamespace.RedisNamespace;
