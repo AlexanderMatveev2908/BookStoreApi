@@ -24,10 +24,14 @@ public sealed class RateLimitMiddleware
     {
       ctx.Response.StatusCode = 429;
 
-      await ctx.Response.WriteAsync(
-          $"Rate limit exceeded. Try again in {ttl.Value.TotalMinutes:F0} minutes."
-      );
-
+      await ctx.Response.WriteAsJsonAsync(
+      new
+      {
+        status = 429,
+        message =
+              $"Rate limit exceeded. Try again in {ttl.Value.TotalMinutes:F0} minutes."
+      }
+  );
       return;
     }
 

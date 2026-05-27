@@ -7,14 +7,30 @@ using DotNetEnv;
 
 Env.Load();
 
+EnvVars.CheckEnvVars();
+
 var builder =
     WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 
-var app = builder.Build();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        "Frontend",
+        policy =>
+        {
+            policy
+                .WithOrigins(
+                    EnvVars.Get("FRONTEND_URL")
+                )
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        }
+    );
+});
 
-EnvVars.CheckEnvVars();
+var app = builder.Build();
 
 await Redis.Connect(app);
 

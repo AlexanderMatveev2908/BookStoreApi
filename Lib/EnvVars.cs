@@ -8,7 +8,8 @@ public static class EnvVars
   {
     "REDIS_HOST",
     "REDIS_PORT",
-    "REDIS_PASSWORD"
+    "REDIS_PASSWORD",
+    "FRONTEND_URL"
   };
 
   public static string Get(string key)
