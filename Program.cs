@@ -27,7 +27,7 @@ app.UseHttpsRedirection();
 
 app.UseRateLimit();
 
-MainMiddleware.UseMainMiddleware(app);
+app.UseMainMiddleware();
 
 Router.MapApi(app);
 

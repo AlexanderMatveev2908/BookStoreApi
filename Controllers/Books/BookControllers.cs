@@ -1,4 +1,4 @@
-namespace Controllers.BookControllersNamespace;
+namespace BOOKSTORE_API.Controllers.BookControllersNamespace;
 
 public static class BookControllers
 {
