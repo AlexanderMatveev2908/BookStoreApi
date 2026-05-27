@@ -1,4 +1,5 @@
 using BOOKSTORE_API.EnvVarsNamespace;
+using BOOKSTORE_API.FilesLibNamespace;
 using BOOKSTORE_API.TypesNamespace;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
@@ -41,7 +42,7 @@ public static class CloudSvc
           new()
           {
             File = new FileDescription(
-                  file.FileName,
+                  FilesLib.MakeNewFilename(file),
                   stream
               ),
 
@@ -63,10 +64,12 @@ public static class CloudSvc
   public static async Task<UploadResultCloud> UploadVideo(IFormFile file)
   {
     var cwd = Directory.GetCurrentDirectory();
+
+    var fileName = FilesLib.MakeNewFilename(file);
     var tempPath = Path.Combine(
         cwd,
         "temp",
-        file.FileName
+      fileName
     );
 
     Directory.CreateDirectory(Path.GetDirectoryName(tempPath)!);

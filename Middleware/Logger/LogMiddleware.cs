@@ -10,6 +10,14 @@ public static class LogMiddleware
   {
     string body = "";
 
+    if (
+    req?.ContentType?
+    .StartsWith("multipart/form-data")
+    == true
+)
+    {
+      return "multipart body skipped";
+    }
 
     if (req?.ContentLength > 0)
     {

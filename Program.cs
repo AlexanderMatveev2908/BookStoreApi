@@ -31,6 +31,12 @@ builder.Services.AddCors(options =>
     );
 });
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize =
+        1024 * 1024 * 500;
+});
+
 var app = builder.Build();
 
 await CloudSvc.Connect();
