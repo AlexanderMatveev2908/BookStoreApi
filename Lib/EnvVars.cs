@@ -13,7 +13,12 @@ public static class EnvVars
     "CLOUD_NAME",
     "CLOUD_API_KEY",
     "CLOUD_API_SECRET",
-    "CLOUD_URL"
+    "CLOUD_URL",
+    "DB_HOST",
+    "DB_PORT",
+    "DB_DATABASE",
+    "DB_USER",
+    "DB_PWD"
   };
 
   public static string Get(string key)
