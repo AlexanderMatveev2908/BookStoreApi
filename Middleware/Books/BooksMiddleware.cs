@@ -6,20 +6,26 @@ namespace BOOKSTORE_API.Middleware.BooksMiddlewareNamespace;
 public static class BooksMiddleware
 {
 
-  public static async Task<bool> CheckBook(HttpContext ctx)
+  public static async Task<IResult?> CheckBook(HttpContext ctx)
   {
+    if (!ctx.Request.HasJsonContentType())
+    {
+      return Results.Json(new
+      {
+        status = 415,
+        message = "Content-Type must be application/json"
+      }, statusCode: 415);
+    }
+
     BookDto? dto = await ctx.Request.ReadFromJsonAsync<BookDto>();
 
     if (dto is null)
     {
-      ctx.Response.StatusCode = 400;
-      await ctx.Response.WriteAsJsonAsync(new
+      return Results.BadRequest(new
       {
         status = 400,
         message = "Invalid JSON body"
       });
-
-      return false;
     }
 
     List<ValidationResult> errors = new();
@@ -34,8 +40,7 @@ public static class BooksMiddleware
 
     if (!isValid)
     {
-      ctx.Response.StatusCode = 400;
-      await ctx.Response.WriteAsJsonAsync(new
+      return Results.BadRequest(new
       {
         status = 400,
         message = "Invalid book data",
@@ -45,12 +50,10 @@ public static class BooksMiddleware
           error = e.ErrorMessage
         })
       });
-
-      return false;
     }
 
     ctx.Items["bookDto"] = dto;
 
-    return true;
+    return null;
   }
 }

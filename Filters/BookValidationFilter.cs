@@ -9,12 +9,11 @@ public class BookValidationFilter : IEndpointFilter
     EndpointFilterDelegate next
   )
   {
-    HttpContext ctx = context.HttpContext;
+    IResult? errorResult =
+     await BooksMiddleware.CheckBook(context.HttpContext);
 
-    bool isValid = await BooksMiddleware.CheckBook(ctx);
-
-    if (!isValid)
-      return null;
+    if (errorResult is not null)
+      return errorResult;
 
     return await next(context);
   }
