@@ -7,7 +7,6 @@ public static class UserRouter
 {
   public static void Map(RouteGroupBuilder api)
   {
-    api.MapPost("/users", async (HttpContext ctx) => await UserCtrl.PostBook(ctx)
-    );
+
   }
 }
