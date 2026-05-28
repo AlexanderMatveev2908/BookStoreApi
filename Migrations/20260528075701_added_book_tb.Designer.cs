@@ -2,6 +2,7 @@
 using BOOKSTORE_API.ServicesNamespace.SqlDbNamespace;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BOOKSTORE_API.Migrations
 {
     [DbContext(typeof(SqlDbCtx))]
-    partial class SqlDbCtxModelSnapshot : ModelSnapshot
+    [Migration("20260528075701_added_book_tb")]
+    partial class added_book_tb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
