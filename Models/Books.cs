@@ -3,7 +3,7 @@ using BOOKSTORE_API.Models.UserNamespace;
 namespace BOOKSTORE_API.Models.BooksNamespace;
 
 
-public class Book
+public class Books
 {
   public int Id { get; set; }
 

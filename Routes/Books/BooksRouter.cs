@@ -1,6 +1,9 @@
 
 using BOOKSTORE_API.Controllers.BookControllersNamespace;
 using BOOKSTORE_API.Filters;
+using BOOKSTORE_API.ServicesNamespace.SqlDbNamespace;
+using Microsoft.AspNetCore.Mvc;
+using Npgsql;
 
 namespace BOOKSTORE_API.Router.BooksRouterNamespace;
 
@@ -13,9 +16,9 @@ public static class BooksRouter
 
     api.MapPost(
       "/books",
-      async (HttpContext ctx) =>
+      async (HttpContext ctx, [FromServices] SqlDbCtx db) =>
       {
-        return BookControllers.PostBook(ctx);
+        return await BookControllers.PostBook(ctx, db);
       }
     )
     .AddEndpointFilter<BookValidationFilter>();

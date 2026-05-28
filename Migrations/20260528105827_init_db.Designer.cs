@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BOOKSTORE_API.Migrations
 {
     [DbContext(typeof(SqlDbCtx))]
-    [Migration("20260528075203_init_db")]
+    [Migration("20260528105827_init_db")]
     partial class init_db
     {
         /// <inheritdoc />
@@ -23,6 +23,35 @@ namespace BOOKSTORE_API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("BOOKSTORE_API.Models.BooksNamespace.Books", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Books");
+                });
 
             modelBuilder.Entity("BOOKSTORE_API.Models.UserNamespace.User", b =>
                 {
@@ -43,6 +72,22 @@ namespace BOOKSTORE_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("BOOKSTORE_API.Models.BooksNamespace.Books", b =>
+                {
+                    b.HasOne("BOOKSTORE_API.Models.UserNamespace.User", "Owner")
+                        .WithMany("Books")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("BOOKSTORE_API.Models.UserNamespace.User", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

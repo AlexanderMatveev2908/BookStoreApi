@@ -21,7 +21,7 @@ namespace BOOKSTORE_API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BOOKSTORE_API.Models.BooksNamespace.Book", b =>
+            modelBuilder.Entity("BOOKSTORE_API.Models.BooksNamespace.Books", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,7 +47,7 @@ namespace BOOKSTORE_API.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Book");
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("BOOKSTORE_API.Models.UserNamespace.User", b =>
@@ -71,7 +71,7 @@ namespace BOOKSTORE_API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BOOKSTORE_API.Models.BooksNamespace.Book", b =>
+            modelBuilder.Entity("BOOKSTORE_API.Models.BooksNamespace.Books", b =>
                 {
                     b.HasOne("BOOKSTORE_API.Models.UserNamespace.User", "Owner")
                         .WithMany("Books")

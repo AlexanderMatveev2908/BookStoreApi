@@ -12,5 +12,5 @@ public class User
 
   public string Email { get; set; } = "";
 
-  public List<Book> Books { get; set; } = new();
+  public List<Books> Books { get; set; } = new();
 }

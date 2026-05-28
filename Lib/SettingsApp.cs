@@ -3,6 +3,7 @@ using BOOKSTORE_API.ExtensionsNamespace.RateLimitExtNamespace;
 using BOOKSTORE_API.MiddlewareNamespace;
 using BOOKSTORE_API.ServicesNamespace.SqlDbNamespace;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace BOOKSTORE_API.SettingsAppNamespace;
 
@@ -34,6 +35,11 @@ public static class SettingsApp
       options.Limits.MaxRequestBodySize =
       1024 * 1024 * 500;
     });
+
+
+    builder.Services.AddNpgsqlDataSource(
+        EnvVars.Get("DB_URL")
+    );
 
     builder.Services.AddDbContext<SqlDbCtx>(options =>
 {
