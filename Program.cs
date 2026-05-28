@@ -4,6 +4,7 @@ using BOOKSTORE_API.ServicesNamespace.RedisNamespace;
 using BOOKSTORE_API.ServicesNamespace.SqlDbNamespace;
 using BOOKSTORE_API.SettingsAppNamespace;
 using DotNetEnv;
+using Microsoft.EntityFrameworkCore;
 
 Env.Load();
 
@@ -17,7 +18,6 @@ SettingsApp.ConfigureBuilder(builder);
 var app = builder.Build();
 
 await CloudSvc.Connect();
-await SqlDb.Connect();
 await Redis.Connect(app);
 
 if (app.Environment.IsDevelopment())
@@ -25,6 +25,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-SettingsApp.ConfigureApp(app);
+await SettingsApp.ConfigureApp(app);
 
 app.Run();
